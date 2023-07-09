@@ -1,0 +1,5 @@
+namespace flappyBird {
+    class Game {
+        
+    };
+}
