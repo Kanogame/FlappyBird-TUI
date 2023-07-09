@@ -5,6 +5,7 @@ namespace flappyBird {
     {
         int WIDTH; 
         int HEIGHT;
+        int BirdPosition;
     };
     
     struct Point {
@@ -17,8 +18,9 @@ namespace flappyBird {
             Game(GameInfo GameInfo);
             ~Game(){};
         private:
+        GameInfo gameInfo;
         void DrawSquare(Point start, int width, int height);
-        GameInfo gameinfo;
+        void GameLoop();
 
     };
 }
