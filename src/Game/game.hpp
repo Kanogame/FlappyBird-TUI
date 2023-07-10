@@ -1,4 +1,3 @@
-#include <boost/asio.hpp>
 
 namespace flappyBird {
     struct GameInfo
@@ -6,6 +5,8 @@ namespace flappyBird {
         int WIDTH; 
         int HEIGHT;
         int BirdPosition;
+        int BirdSize;
+        double BirdVelocity;
     };
     
     struct Point {
@@ -21,6 +22,6 @@ namespace flappyBird {
         GameInfo gameInfo;
         void DrawSquare(Point start, int width, int height);
         void GameLoop();
-
+        void runTick();
     };
 }

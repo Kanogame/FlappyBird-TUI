@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game/game.hpp"
 
 #include <iostream> 
 #include <sys/ioctl.h>
@@ -11,6 +11,7 @@ int main() {
     flappyBird::GameInfo gameinfo;
     gameinfo.HEIGHT = w.ws_row;
     gameinfo.WIDTH = w.ws_col;
+    gameinfo.BirdPosition = 10;
 
     flappyBird::Game game{gameinfo};
 

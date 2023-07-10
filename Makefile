@@ -1,2 +1,2 @@
-a.out: src/*.cpp  src/*.hpp
-	g++ src/*.cpp -o a.out
+a.out: src/*.cpp  src/Game/*.cpp  src/Game/*.hpp
+	g++ src/*.cpp src/Game/*.cpp -o a.out

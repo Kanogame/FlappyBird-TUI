@@ -1,4 +1,4 @@
-#include "../Game/game.hpp"
+
 
 namespace flappyBird {
     class Drawer {
