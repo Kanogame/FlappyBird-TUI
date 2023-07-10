@@ -3,8 +3,9 @@
 #include <iostream>
 
 namespace flappyBird {
-    Drawer::Drawer(Window &Window) {
-        DrawerWindow = Window;
+
+    void Drawer::DrawBird(int BirdPosition) {
+        DrawRectangle(Point{10, BirdPosition}, 10, 4);
     }
 
     void Drawer::DrawRectangle(Point start, int width, int height) {

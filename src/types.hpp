@@ -1,4 +1,5 @@
 
+
 namespace flappyBird {
     struct Point {
         int x;
@@ -6,8 +7,7 @@ namespace flappyBird {
     };
 
     struct Window {
-        int clientWidth; 
         int clientHeight;
+        int clientWidth; 
     };
-    
 }

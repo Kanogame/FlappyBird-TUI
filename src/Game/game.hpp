@@ -1,9 +1,9 @@
+#include "../Drawer/drawer.hpp"
 
 namespace flappyBird {
     struct GameInfo
     {
-        int WIDTH; 
-        int HEIGHT;
+        Window ClientWindow;
         int BirdPosition;
         int BirdSize;
         double BirdVelocity;
@@ -12,10 +12,10 @@ namespace flappyBird {
     class Game {
         public:
             Game(GameInfo GameInfo);
+            void RunTick();
             ~Game(){};
         private:
-        GameInfo gameInfo;
-        void GameLoop();
-        void runTick();
+            GameInfo gameInfo;
+            void GameLoop();
     };
 }

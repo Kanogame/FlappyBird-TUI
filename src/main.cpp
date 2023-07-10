@@ -9,8 +9,7 @@ int main() {
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
     flappyBird::GameInfo gameinfo;
-    gameinfo.HEIGHT = w.ws_row;
-    gameinfo.WIDTH = w.ws_col;
+    gameinfo.ClientWindow = flappyBird::Window{w.ws_col, w.ws_row};
     gameinfo.BirdPosition = 10;
 
     flappyBird::Game game{gameinfo};

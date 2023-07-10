@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "../Drawer/drawer.hpp"
 
 #include <iostream>
 #include <thread>
@@ -12,12 +11,14 @@ namespace flappyBird {
 
     void Game::GameLoop() {
         while (true) {
-            runTick();
+            RunTick();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
-    void Game::runTick() {
+    void Game::RunTick() {
+        Drawer Drawer{gameInfo.ClientWindow};
+        Drawer.DrawBird(gameInfo.BirdPosition);
         gameInfo.BirdPosition *= gameInfo.BirdVelocity;
         gameInfo.BirdVelocity *= 1.1;
     }
