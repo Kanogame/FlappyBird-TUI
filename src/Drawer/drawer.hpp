@@ -1,9 +1,11 @@
-
+#include "../types.hpp"
 
 namespace flappyBird {
     class Drawer {
         public:
-            Drawer(GameInfo gameinfo);
+            Drawer(Window &Window);
             void DrawRectangle(Point start, int width, int height);
+        private: 
+            Window &DrawerWindow;
     };
 }

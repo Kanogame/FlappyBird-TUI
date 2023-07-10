@@ -8,11 +8,6 @@ namespace flappyBird {
         int BirdSize;
         double BirdVelocity;
     };
-    
-    struct Point {
-        int x;
-        int y;
-    };
 
     class Game {
         public:
@@ -20,7 +15,6 @@ namespace flappyBird {
             ~Game(){};
         private:
         GameInfo gameInfo;
-        void DrawSquare(Point start, int width, int height);
         void GameLoop();
         void runTick();
     };
