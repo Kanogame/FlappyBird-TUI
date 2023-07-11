@@ -1,16 +1,8 @@
 
 #include <iostream> 
-#include <ncurses.h>
+#include "game.hpp"
 
 int main() {
-    initscr();
-    refresh();
-
-    WINDOW *board = newwin(LINES - 1, COLS - 1, 0, 0);
-    mvwprintw(board, 2, 2, "%d:%d", LINES, COLS);
-    box(board, 0, 0);
-    wrefresh(board);
-    getch();
-    endwin();
+    FlappyBird::Game game{};
     return 0;
 }
