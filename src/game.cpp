@@ -30,7 +30,7 @@ namespace FlappyBird {
     }
 
     bool Game::CollideCheck() {
-        if (BirdY >= LINES -1) {
+        if (BirdY >= LINES -1 || BirdY < 0) {
             return true;
         }
 
@@ -47,7 +47,7 @@ namespace FlappyBird {
 
     void Game::BirdJump() {
         if (getch() == 'w') {
-            BirdVelocity = -2;
+            BirdVelocity = -3;
         } else {
             return;
         }
