@@ -12,5 +12,6 @@ namespace FlappyBird {
             void RepaintReqaried();
             void DrawBird(int BirdPosition);
             void BirdJump();
+            bool CollideCheck();
     };
 }

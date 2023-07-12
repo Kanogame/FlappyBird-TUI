@@ -17,12 +17,24 @@ namespace FlappyBird {
 
     void Game::Gameloop() {
         while (true) {
-            RepaintReqaried();
             BirdJump();
             BirdY += BirdVelocity;
             BirdVelocity += 1;
+            RepaintReqaried();
+            if (CollideCheck()) {
+                wclear(window);
+                return;
+            }
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
+    }
+
+    bool Game::CollideCheck() {
+        if (BirdY >= LINES -1) {
+            return true;
+        }
+
+        return false;
     }
 
     void Game::RepaintReqaried() {
