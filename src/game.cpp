@@ -7,18 +7,18 @@ namespace FlappyBird {
         initscr();
         refresh();
         noecho();
-
         window = newwin(LINES - 1, COLS - 1, 0, 0);
+        cbreak();
+        nodelay(stdscr, TRUE);
         wrefresh(window);
         Gameloop();
-        getch();
         endwin();
     }
 
     void Game::Gameloop() {
         while (true) {
-            BirdJump();
             RepaintReqaried();
+            BirdJump();
             BirdY += BirdVelocity;
             BirdVelocity += 1;
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -34,14 +34,10 @@ namespace FlappyBird {
     }
 
     void Game::BirdJump() {
-        int ch;
-
-        switch (ch = getch())
-        {
-            case 'w':
-                break;
-            default:
-                break;
+        if (getch() == 'w') {
+            BirdVelocity = -2;
+        } else {
+            return;
         }
     }
 
