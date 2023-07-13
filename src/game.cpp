@@ -7,7 +7,7 @@ namespace FlappyBird {
         initscr();
         refresh();
         noecho();
-        window = newwin(LINES - 1, COLS - 1, 0, 0);
+        window = newwin(LINES, COLS - 1, 0, 0);
         cbreak();
         nodelay(stdscr, TRUE);
         wrefresh(window);
@@ -16,6 +16,7 @@ namespace FlappyBird {
     }
 
     void Game::Gameloop() {
+        SetPipes();
         while (true) {
             BirdJump();
             BirdY += BirdVelocity;
@@ -25,8 +26,12 @@ namespace FlappyBird {
                 wclear(window);
                 return;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(60));
         }
+    }
+
+    void Game::SetPipes() {
+        
     }
 
     bool Game::CollideCheck() {
@@ -42,7 +47,7 @@ namespace FlappyBird {
         box(window, 0, 0);
         DrawBird(BirdY);
         wrefresh(window);
-        //DrawPipes();
+        DrawPipes(pipes);
     }
 
     void Game::BirdJump() {
@@ -51,6 +56,12 @@ namespace FlappyBird {
         } else {
             return;
         }
+    }
+
+    void Game::DrawPipes(Pipes pipes[]) {
+        auto pipe = newwin(0, 10, LINES - 9, PipesX);
+        box(pipe, 0,0);
+        wrefresh(pipe);
     }
 
     void Game::DrawBird(int BirdPosition) {
