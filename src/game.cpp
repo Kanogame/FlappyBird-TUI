@@ -22,20 +22,22 @@ namespace FlappyBird {
             BirdJump();
             BirdY += BirdVelocity;
             BirdVelocity += 1;
+            PipesX - 1;
             RepaintReqaried();
             if (CollideCheck()) {
                 wclear(window);
                 return;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(60));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
     void Game::SetPipes() {
-        for (int i = 0; i < sizeof(pipes) / sizeof(Pipes); i++) {
+        std::srand(123);
+        for (int i = 0; i < pipeSize; i++) {
             int randPipe = std::rand()%(LINES - 6);
             pipes[i].pipeTop = randPipe;
-            pipes[i].pipeBottom = randPipe + 6;
+            pipes[i].pipeBottom = randPipe + pipeYDelay;
         }
     }
 
@@ -48,11 +50,11 @@ namespace FlappyBird {
     }
 
     void Game::RepaintReqaried() {
-        wclear(window);
+        werase(window);
         box(window, 0, 0);
         DrawBird(BirdY);
-        wrefresh(window);
         DrawPipes(pipes);
+        wrefresh(window);
     }
 
     void Game::BirdJump() {
@@ -64,11 +66,23 @@ namespace FlappyBird {
     }
 
     void Game::DrawPipes(Pipes pipes[]) {
-        for (int i = 0; i < sizeof(pipes) / sizeof(Pipes); i++) {
-            pipes[i].pipeTopWindow = newwin(0, pipes[i].pipeTop, 0, PipesX);
+        for (int i = 0; i < pipeSize; i++) {
+            pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + PipesX) * i));
+            box(pipes[i].pipeBottomWindow, 0,0);
+            wrefresh(pipes[i].pipeBottomWindow);
+        }
+
+        for (int i = 0; i < pipeSize; i++) {
+            pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + PipesX) * i));
             box(pipes[i].pipeTopWindow, 0,0);
             wrefresh(pipes[i].pipeTopWindow);
         }
+
+        //pipes[i].pipeTopWindow = newwin(0, 10, 0, 10 + (7 * i));
+        //box(pipes[i].pipeTopWindow, 0,0);
+        //wrefresh(pipes[i].pipeTopWindow);
+
+       
         
     }
 

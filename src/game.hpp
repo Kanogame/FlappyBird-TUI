@@ -13,7 +13,10 @@ namespace FlappyBird {
             Game();
         private:
             WINDOW* window;
-            Pipes pipes[3];
+            Pipes pipes[10];
+            int pipeSize = 10;
+            int pipeXDelay = 10;
+            int pipeYDelay = 10;
             int PipesX = 10;
             int BirdY = 3;
             int BirdVelocity = 1;
