@@ -1,5 +1,6 @@
 #include "game.hpp"
 #include <thread>
+#include<cstdlib>
 
 
 namespace FlappyBird {
@@ -31,7 +32,11 @@ namespace FlappyBird {
     }
 
     void Game::SetPipes() {
-        
+        for (int i = 0; i < sizeof(pipes) / sizeof(Pipes); i++) {
+            int randPipe = std::rand()%(LINES - 6);
+            pipes[i].pipeTop = randPipe;
+            pipes[i].pipeBottom = randPipe + 6;
+        }
     }
 
     bool Game::CollideCheck() {
@@ -59,9 +64,12 @@ namespace FlappyBird {
     }
 
     void Game::DrawPipes(Pipes pipes[]) {
-        auto pipe = newwin(0, 10, LINES - 9, PipesX);
-        box(pipe, 0,0);
-        wrefresh(pipe);
+        for (int i = 0; i < sizeof(pipes) / sizeof(Pipes); i++) {
+            pipes[i].pipeTopWindow = newwin(0, pipes[i].pipeTop, 0, PipesX);
+            box(pipes[i].pipeTopWindow, 0,0);
+            wrefresh(pipes[i].pipeTopWindow);
+        }
+        
     }
 
     void Game::DrawBird(int BirdPosition) {
