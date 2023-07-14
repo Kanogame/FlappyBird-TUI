@@ -9,6 +9,7 @@ namespace FlappyBird {
         refresh();
         noecho();
         window = newwin(LINES, COLS - 1, 0, 0);
+        PipesX = COLS / 2;
         cbreak();
         nodelay(stdscr, TRUE);
         wrefresh(window);
@@ -67,12 +68,12 @@ namespace FlappyBird {
 
     void Game::DrawPipes(Pipes pipes[]) {
         for (int i = 0; i < pipeSize; i++) {
-            pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + PipesX) * i));
+            pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
             box(pipes[i].pipeBottomWindow, 0,0);
         }
 
         for (int i = 0; i < pipeSize; i++) {
-            pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + PipesX) * i));
+            pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
             box(pipes[i].pipeTopWindow, 0,0);
         }
 
