@@ -53,8 +53,8 @@ namespace FlappyBird {
         werase(window);
         box(window, 0, 0);
         DrawBird(BirdY);
-        DrawPipes(pipes);
         wrefresh(window);
+        DrawPipes(pipes);
     }
 
     void Game::BirdJump() {
@@ -69,21 +69,17 @@ namespace FlappyBird {
         for (int i = 0; i < pipeSize; i++) {
             pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + PipesX) * i));
             box(pipes[i].pipeBottomWindow, 0,0);
-            wrefresh(pipes[i].pipeBottomWindow);
         }
 
         for (int i = 0; i < pipeSize; i++) {
             pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + PipesX) * i));
             box(pipes[i].pipeTopWindow, 0,0);
-            wrefresh(pipes[i].pipeTopWindow);
         }
 
-        //pipes[i].pipeTopWindow = newwin(0, 10, 0, 10 + (7 * i));
-        //box(pipes[i].pipeTopWindow, 0,0);
-        //wrefresh(pipes[i].pipeTopWindow);
-
-       
-        
+        for (int i = 0; i < pipeSize; i++) {
+            wrefresh(pipes[i].pipeBottomWindow);
+            wrefresh(pipes[i].pipeTopWindow);
+        }
     }
 
     void Game::DrawBird(int BirdPosition) {
