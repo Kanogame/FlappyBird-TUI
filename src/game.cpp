@@ -37,22 +37,22 @@ namespace FlappyBird {
     void Game::SetPipes() {
         std::srand(time(NULL));
         for (int i = 0; i < pipeSize; i++) {
-            int randPipe = std::rand()%(LINES - 6);
-            pipes[i].pipeTop = randPipe;
-            pipes[i].pipeBottom = randPipe + pipeYDelay;
+            int randPipe = std::rand()%(LINES - 9);
+            pipes[i].pipeTop = randPipe + 2;
+            pipes[i].pipeBottom = pipes[i].pipeTop + pipeYDelay;
         }
     }
 
     void Game::ResetPipes(Pipes Oldpipes[]) {
-        std::srand(123);
+        std::srand(time(NULL));
         for (int i = 0; i < 5; i++) {
             pipes[i].pipeTop = Oldpipes[i + 7].pipeTop;
             pipes[i].pipeBottom = Oldpipes[i + 7].pipeBottom;
         }
         for (int i = 5; i < pipeSize; i++) {
-            int randPipe = std::rand()%(LINES - 6);
-            pipes[i].pipeTop = randPipe;
-            pipes[i].pipeBottom = randPipe + pipeYDelay;
+            int randPipe = std::rand()%(LINES - 9);
+            pipes[i].pipeTop = randPipe + 2;
+            pipes[i].pipeBottom = pipes[i].pipeTop + pipeYDelay;
         }
     }
 
