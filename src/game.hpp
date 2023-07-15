@@ -13,8 +13,8 @@ namespace FlappyBird {
             Game();
         private:
             WINDOW* window;
-            Pipes pipes[10];
-            int pipeSize = 10;
+            Pipes pipes[13];
+            int pipeSize = 13;
             int pipeXDelay = 20;
             int pipeYDelay = 10;
             int PipesX = 0;
@@ -24,6 +24,7 @@ namespace FlappyBird {
             void Gameloop();
             void RepaintReqaried();
             void SetPipes();
+            void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);
             void DrawPipes(Pipes pipes[]);
             void BirdJump();

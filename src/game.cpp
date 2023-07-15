@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include <thread>
 #include<cstdlib>
+#include <time.h>
 
 
 namespace FlappyBird {
@@ -34,8 +35,21 @@ namespace FlappyBird {
     }
 
     void Game::SetPipes() {
-        std::srand(123);
+        std::srand(time(NULL));
         for (int i = 0; i < pipeSize; i++) {
+            int randPipe = std::rand()%(LINES - 6);
+            pipes[i].pipeTop = randPipe;
+            pipes[i].pipeBottom = randPipe + pipeYDelay;
+        }
+    }
+
+    void Game::ResetPipes(Pipes Oldpipes[]) {
+        std::srand(123);
+        for (int i = 0; i < 5; i++) {
+            pipes[i].pipeTop = Oldpipes[i + 7].pipeTop;
+            pipes[i].pipeBottom = Oldpipes[i + 7].pipeBottom;
+        }
+        for (int i = 5; i < pipeSize; i++) {
             int randPipe = std::rand()%(LINES - 6);
             pipes[i].pipeTop = randPipe;
             pipes[i].pipeBottom = randPipe + pipeYDelay;
@@ -73,22 +87,20 @@ namespace FlappyBird {
     }
 
     void Game::DrawPipes(Pipes pipes[]) {
+        if (-PipesX > COLS * 2) {
+            PipesX = PipesX + COLS * 2;
+            ResetPipes(pipes);
+        }
         for (int i = 0; i < pipeSize; i++) {
-            if ((PipesX + ((pipeXDelay + 10) * i)) > COLS) {
-                pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
-                pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
-                box(pipes[i].pipeBottomWindow, 0,0);
-                box(pipes[i].pipeTopWindow, 0,0);
-            } else {
-                return;
-            }
+            pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
+            pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
+            box(pipes[i].pipeBottomWindow, 0,0);
+            box(pipes[i].pipeTopWindow, 0,0);
         }
 
         for (int i = 0; i < pipeSize; i++) {
-            if (pipes[i].pipeBottomWindow != NULL && pipes[i].pipeTopWindow != NULL) {
-                wrefresh(pipes[i].pipeBottomWindow);
-                wrefresh(pipes[i].pipeTopWindow);
-            }
+            wrefresh(pipes[i].pipeBottomWindow);
+            wrefresh(pipes[i].pipeTopWindow);
         }
     }
 
