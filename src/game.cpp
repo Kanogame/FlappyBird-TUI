@@ -74,18 +74,21 @@ namespace FlappyBird {
 
     void Game::DrawPipes(Pipes pipes[]) {
         for (int i = 0; i < pipeSize; i++) {
-            pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
-            box(pipes[i].pipeBottomWindow, 0,0);
+            if ((PipesX + ((pipeXDelay + 10) * i)) > COLS) {
+                pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
+                pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
+                box(pipes[i].pipeBottomWindow, 0,0);
+                box(pipes[i].pipeTopWindow, 0,0);
+            } else {
+                return;
+            }
         }
 
         for (int i = 0; i < pipeSize; i++) {
-            pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
-            box(pipes[i].pipeTopWindow, 0,0);
-        }
-
-        for (int i = 0; i < pipeSize; i++) {
-            wrefresh(pipes[i].pipeBottomWindow);
-            wrefresh(pipes[i].pipeTopWindow);
+            if (pipes[i].pipeBottomWindow != NULL && pipes[i].pipeTopWindow != NULL) {
+                wrefresh(pipes[i].pipeBottomWindow);
+                wrefresh(pipes[i].pipeTopWindow);
+            }
         }
     }
 
