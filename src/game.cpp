@@ -23,7 +23,7 @@ namespace FlappyBird {
             BirdJump();
             BirdY += BirdVelocity;
             BirdVelocity += 1;
-            PipesX - 1;
+            PipesX -= 1;
             RepaintReqaried();
             if (CollideCheck()) {
                 wclear(window);
@@ -43,10 +43,16 @@ namespace FlappyBird {
     }
 
     bool Game::CollideCheck() {
+        int collidePosition = (PipesX - COLS / 2 - 10) / (pipeXDelay + 10) -  (PipesX - COLS / 2) / (pipeXDelay + 10);
+        int pipeNumber = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 2;
         if (BirdY >= LINES -1 || BirdY < 0) {
             return true;
         }
-
+        if (collidePosition == -1 && pipeNumber >= 0) {
+            if (BirdY < pipes[pipeNumber].pipeTop || BirdY > pipes[pipeNumber].pipeBottom) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -84,6 +90,6 @@ namespace FlappyBird {
     }
 
     void Game::DrawBird(int BirdPosition) {
-        mvwprintw(window, BirdPosition, 4, "bird");
+        mvwprintw(window, BirdPosition, BirdX, "bird");
     }
 }
