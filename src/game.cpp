@@ -10,7 +10,7 @@ namespace FlappyBird {
         refresh();
         noecho();
         window = newwin(LINES, COLS - 1, 0, 0);
-        PipesX = COLS / 2;
+        PipesX = (int)(COLS / 2 / (pipeXDelay + 10)) * (pipeXDelay + 10);
         cbreak();
         nodelay(stdscr, TRUE);
         wrefresh(window);
@@ -42,16 +42,16 @@ namespace FlappyBird {
             pipes[i].pipeBottom = pipes[i].pipeTop + pipeYDelay;
         }
     }
-    
+
     bool Game::CollideCheck() {
         int collidePosition = (PipesX - COLS / 2 - 10) / (pipeXDelay + 10) -  (PipesX - COLS / 2) / (pipeXDelay + 10);
-        int pipeNumber = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 4;
+        int pipeNumber = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - (COLS / 2) / (pipeXDelay + 10) - 1;
         if (BirdY >= LINES -1 || BirdY < 0) {
             return true;
         }
         if (collidePosition == -1 && pipeNumber >= 0) {
             if (BirdY < pipes[pipeNumber].pipeTop || BirdY > pipes[pipeNumber].pipeBottom) {
-                //return true;
+                return true;
             }
         }
         return false;
@@ -63,6 +63,19 @@ namespace FlappyBird {
         DrawBird(BirdY);
         wrefresh(window);
         DrawPipes(pipes);
+        int score = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 4;
+        DrawScore(score);
+    }
+
+    void Game::DrawScore(int score) {
+        int Gamescore = score < 0 ? 0 : score;
+        auto ScoreWindow = newwin(5, 10, LINES / 4 + 2, COLS / 2 - 5);
+        box(ScoreWindow, 0, 0);
+        int centerCol = ScoreWindow->_maxx / 2;
+        int scoreLenght = 4;
+        int ajCol = centerCol - scoreLenght;
+        mvwprintw(window, 0, ajCol, "test");
+        wrefresh(ScoreWindow);
     }
 
     void Game::BirdJump() {
@@ -88,6 +101,6 @@ namespace FlappyBird {
     }
 
     void Game::DrawBird(int BirdPosition) {
-        mvwprintw(window, BirdPosition, BirdX, "bird");
+        mvwprintw(window, BirdPosition, BirdX, "%d", (PipesX - COLS / 2 - 10) / (pipeXDelay + 10));
     }
 }

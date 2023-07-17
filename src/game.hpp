@@ -15,6 +15,7 @@ namespace FlappyBird {
             WINDOW* window;
             Pipes pipes[100];
             int pipeSize = 100;
+            int pipeOffset = 0;
             int pipeXDelay = 20;
             int pipeYDelay = 10;
             int PipesX = 0;
@@ -27,6 +28,7 @@ namespace FlappyBird {
             void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);
             void DrawPipes(Pipes pipes[]);
+            void DrawScore(int score);
             void BirdJump();
             bool CollideCheck();
     };
