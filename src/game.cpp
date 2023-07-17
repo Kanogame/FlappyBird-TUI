@@ -42,29 +42,16 @@ namespace FlappyBird {
             pipes[i].pipeBottom = pipes[i].pipeTop + pipeYDelay;
         }
     }
-
-    void Game::ResetPipes(Pipes Oldpipes[]) {
-        std::srand(time(NULL));
-        for (int i = 0; i < 5; i++) {
-            pipes[i].pipeTop = Oldpipes[i + 7].pipeTop;
-            pipes[i].pipeBottom = Oldpipes[i + 7].pipeBottom;
-        }
-        for (int i = 5; i < pipeSize; i++) {
-            int randPipe = std::rand()%(LINES - 9);
-            pipes[i].pipeTop = randPipe + 2;
-            pipes[i].pipeBottom = pipes[i].pipeTop + pipeYDelay;
-        }
-    }
-
+    
     bool Game::CollideCheck() {
         int collidePosition = (PipesX - COLS / 2 - 10) / (pipeXDelay + 10) -  (PipesX - COLS / 2) / (pipeXDelay + 10);
-        int pipeNumber = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 2;
+        int pipeNumber = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 4;
         if (BirdY >= LINES -1 || BirdY < 0) {
             return true;
         }
         if (collidePosition == -1 && pipeNumber >= 0) {
             if (BirdY < pipes[pipeNumber].pipeTop || BirdY > pipes[pipeNumber].pipeBottom) {
-                return true;
+                //return true;
             }
         }
         return false;
@@ -87,18 +74,14 @@ namespace FlappyBird {
     }
 
     void Game::DrawPipes(Pipes pipes[]) {
-        if (-PipesX > COLS * 2) {
-            PipesX = PipesX + COLS * 2;
-            ResetPipes(pipes);
-        }
         for (int i = 0; i < pipeSize; i++) {
+            if (PipesX + ((pipeXDelay + 10) * i) > COLS) {
+                continue;
+            }
             pipes[i].pipeBottomWindow = newwin(LINES - 1, 10, pipes[i].pipeBottom, PipesX + ((pipeXDelay + 10) * i));
             pipes[i].pipeTopWindow = newwin(pipes[i].pipeTop, 10, 0, PipesX + ((pipeXDelay + 10) * i));
             box(pipes[i].pipeBottomWindow, 0,0);
             box(pipes[i].pipeTopWindow, 0,0);
-        }
-
-        for (int i = 0; i < pipeSize; i++) {
             wrefresh(pipes[i].pipeBottomWindow);
             wrefresh(pipes[i].pipeTopWindow);
         }
