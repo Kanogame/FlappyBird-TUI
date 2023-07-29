@@ -11,6 +11,7 @@ namespace FlappyBird {
         noecho();
         window = newwin(LINES, COLS - 1, 0, 0);
         PipesX = (int)(COLS / 2) / (pipeXDelay + 10) * (pipeXDelay + 10);
+        StartPipes = PipesX;
         cbreak();
         nodelay(stdscr, TRUE);
         wrefresh(window);
@@ -25,12 +26,14 @@ namespace FlappyBird {
             BirdY += BirdVelocity;
             BirdVelocity += 1;
             PipesX -= 1;
-            RepaintReqaried();
-            if (CollideCheck()) {
+            int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
+            int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
+            RepaintReqaried(score + 1);
+            if (CollideCheck(collidePositions, score)) {
                 wclear(window);
                 return;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(60));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
@@ -43,28 +46,25 @@ namespace FlappyBird {
         }
     }
 
-    bool Game::CollideCheck() {
-        int collidePosition =  (PipesX + pipeXDelay + 5) / (pipeXDelay + 10) - (PipesX + pipeXDelay + 15) / (pipeXDelay + 10);
-        int pipeNumber = -(PipesX + pipeXDelay + 5) / (pipeXDelay + 10);
+    bool Game::CollideCheck(int collidePositions, int score) {
         if (BirdY >= LINES -1 || BirdY < 0) {
             return true;
         }
-        if (collidePosition == -1 && pipeNumber >= 0) {
-            if (BirdY < pipes[pipeNumber].pipeTop || BirdY > pipes[pipeNumber].pipeBottom) {
+        if (collidePositions == -1 && score >= 0) {
+            if (BirdY < pipes[score].pipeTop || BirdY > pipes[score].pipeBottom) {
                 return true;
             }
         }
         return false;
     }
 
-    void Game::RepaintReqaried() {
+    void Game::RepaintReqaried(int score) {
         werase(window);
         box(window, 0, 0);
         DrawBird(BirdY);
         wrefresh(window);
         DrawPipes(pipes);
-        int score = -(PipesX - COLS / 2 - 10) / (pipeXDelay + 10) - 4;
-        //DrawScore(score);
+        DrawScore(score);
     }
 
     void Game::DrawScore(int score) {
@@ -72,9 +72,9 @@ namespace FlappyBird {
         auto ScoreWindow = newwin(5, 10, LINES / 4 + 2, COLS / 2 - 5);
         box(ScoreWindow, 0, 0);
         int centerCol = ScoreWindow->_maxx / 2;
-        int scoreLenght = 4;
+        int scoreLenght = sizeof(score) / sizeof(int);
         int ajCol = centerCol - scoreLenght;
-        mvwprintw(window, 0, ajCol, "test");
+        mvwprintw(ScoreWindow, 0, ajCol, "%d", score);
         wrefresh(ScoreWindow);
     }
 
@@ -101,6 +101,8 @@ namespace FlappyBird {
     }
 
     void Game::DrawBird(int BirdPosition) {
-        mvwprintw(window, BirdPosition, BirdX, "bird");
+        int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
+        int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
+        mvwprintw(window, BirdPosition, BirdX, "%d %d", score, collidePositions);
     }
 }

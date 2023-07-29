@@ -22,14 +22,15 @@ namespace FlappyBird {
             int BirdY = 3;
             int BirdX = 5;
             int BirdVelocity = 1;
+            int StartPipes ;
             void Gameloop();
-            void RepaintReqaried();
+            void RepaintReqaried(int score);
             void SetPipes();
             void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);
             void DrawPipes(Pipes pipes[]);
             void DrawScore(int score);
             void BirdJump();
-            bool CollideCheck();
+            bool CollideCheck(int collidePositions, int score);
     };
 }
