@@ -101,8 +101,6 @@ namespace FlappyBird {
     }
 
     void Game::DrawBird(int BirdPosition) {
-        int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
-        int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
-        mvwprintw(window, BirdPosition, BirdX, "%d %d", score, collidePositions);
+        mvwprintw(window, BirdPosition, BirdX, "bird");
     }
 }
