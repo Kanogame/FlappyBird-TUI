@@ -48,7 +48,25 @@ namespace FlappyBird {
 
     void Game::DrawMenu(GameState *GameState) {
         DrawGameWindow(window);
-        DrawButton()
+        DrawButton(10, LINES / 2, COLS / 2, "start", ButtonState::Static);
+    }
+
+    void Game::DrawButton(int width, int x, int y, char *text, ButtonState buttonState) {
+        auto buttonWindow = newwin(3, width, x, y); 
+        switch (buttonState) {
+        case ButtonState::Static:
+            box(buttonWindow, 0, 0);
+            wrefresh(buttonWindow);
+            break;
+        
+        default:
+            break;
+        }
+        getch();
+    }
+
+    void Game::AlignText(int width, int text) {
+
     }
 
     void Game::SetPipes() {

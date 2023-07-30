@@ -19,6 +19,12 @@ namespace FlappyBird {
         Exit
     };
 
+    enum class ButtonState {
+        Static,
+        Active,
+        Pressed
+    };
+
     class Game {
         public:
             Game();
@@ -38,6 +44,7 @@ namespace FlappyBird {
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);
+            void DrawButton(int width, int x, int y, char *text, ButtonState buttonState);
             void SetPipes();
             void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);
