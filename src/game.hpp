@@ -45,6 +45,7 @@ namespace FlappyBird {
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);
             void DrawButton(int width, int x, int y, char *text, ButtonState buttonState);
+            int AlignText(int width, int textLen);
             void SetPipes();
             void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);

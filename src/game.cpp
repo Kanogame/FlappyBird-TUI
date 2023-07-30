@@ -2,6 +2,7 @@
 #include <thread>
 #include<cstdlib>
 #include <time.h>
+#include <string.h>
 
 
 namespace FlappyBird {
@@ -48,7 +49,7 @@ namespace FlappyBird {
 
     void Game::DrawMenu(GameState *GameState) {
         DrawGameWindow(window);
-        DrawButton(10, LINES / 2, COLS / 2, "start", ButtonState::Static);
+        DrawButton(11, LINES / 2, COLS / 2, "start", ButtonState::Static);
     }
 
     void Game::DrawButton(int width, int x, int y, char *text, ButtonState buttonState) {
@@ -56,6 +57,7 @@ namespace FlappyBird {
         switch (buttonState) {
         case ButtonState::Static:
             box(buttonWindow, 0, 0);
+            mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
             wrefresh(buttonWindow);
             break;
         
@@ -65,8 +67,8 @@ namespace FlappyBird {
         getch();
     }
 
-    void Game::AlignText(int width, int text) {
-
+    int Game::AlignText(int width, int textLen) {
+        return width / 2 - textLen / 2;
     }
 
     void Game::SetPipes() {
