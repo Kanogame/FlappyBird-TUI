@@ -13,28 +13,42 @@ namespace FlappyBird {
         PipesX = (int)(COLS / 2) / (pipeXDelay + 10) * (pipeXDelay + 10);
         StartPipes = PipesX;
         cbreak();
-        nodelay(stdscr, TRUE);
         wrefresh(window);
-        Gameloop();
+        GameState gameState = GameState::Menu;
+        Gameloop(&gameState);
         endwin();
     }
 
-    void Game::Gameloop() {
-        SetPipes();
-        while (true) {
-            BirdJump();
-            BirdY += BirdVelocity;
-            BirdVelocity += 1;
-            PipesX -= 1;
-            int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
-            int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
-            RepaintReqaried(score + 1);
-            if (CollideCheck(collidePositions, score)) {
-                wclear(window);
-                return;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    void Game::Gameloop(GameState *GameState) {
+        switch (*GameState)
+            {
+            case GameState::Menu:
+                DrawMenu(GameState);
+                break;
+            case GameState::Game:
+                nodelay(stdscr, TRUE);
+                SetPipes();
+                while (1) {
+                    BirdJump();
+                    BirdY += BirdVelocity;
+                    BirdVelocity += 1;
+                    PipesX -= 1;
+                    int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
+                    int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
+                    RepaintReqaried(score + 1);
+                    if (CollideCheck(collidePositions, score)) {
+                        wclear(window);
+                        return;
+                    }
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                }
+                break;
         }
+    }
+
+    void Game::DrawMenu(GameState *GameState) {
+        DrawGameWindow(window);
+        DrawButton()
     }
 
     void Game::SetPipes() {
@@ -59,12 +73,16 @@ namespace FlappyBird {
     }
 
     void Game::RepaintReqaried(int score) {
-        werase(window);
-        box(window, 0, 0);
+        DrawGameWindow(window);
         DrawBird(BirdY);
         wrefresh(window);
         DrawPipes(pipes);
         DrawScore(score);
+    }
+
+    void Game::DrawGameWindow(WINDOW *gameWindow) {
+        werase(window);
+        box(window, 0, 0);
     }
 
     void Game::DrawScore(int score) {

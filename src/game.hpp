@@ -8,6 +8,17 @@ namespace FlappyBird {
         WINDOW* pipeBottomWindow;
     };
 
+    enum class GameState {
+        Menu,
+        Game,
+        Gameover
+    };
+
+    enum class MenuButton {
+        Start,
+        Exit
+    };
+
     class Game {
         public:
             Game();
@@ -22,9 +33,11 @@ namespace FlappyBird {
             int BirdY = 3;
             int BirdX = 5;
             int BirdVelocity = 1;
-            int StartPipes ;
-            void Gameloop();
+            int StartPipes;
+            void DrawMenu(GameState *GameState);
+            void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
+            void DrawGameWindow(WINDOW *window);
             void SetPipes();
             void ResetPipes(Pipes Oldpipes[]);
             void DrawBird(int BirdPosition);
