@@ -69,12 +69,12 @@ namespace FlappyBird {
 
     void Game::DrawScore(int score) {
         int Gamescore = score < 0 ? 0 : score;
-        auto ScoreWindow = newwin(5, 10, LINES / 4 + 2, COLS / 2 - 5);
+        auto ScoreWindow = newwin(3, 11, 0, COLS / 2 - 5);
         box(ScoreWindow, 0, 0);
         int centerCol = ScoreWindow->_maxx / 2;
         int scoreLenght = sizeof(score) / sizeof(int);
         int ajCol = centerCol - scoreLenght;
-        mvwprintw(ScoreWindow, 0, ajCol, "%d", score);
+        mvwprintw(ScoreWindow, 1, ajCol, "%d", score);
         wrefresh(ScoreWindow);
     }
 
