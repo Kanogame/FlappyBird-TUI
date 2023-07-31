@@ -1,5 +1,10 @@
 #include <ncurses.h>
 
+#define pipeSize 100
+#define pipeXDelay 20
+#define pipeYDelay 10
+#define BirdX 5
+
 namespace FlappyBird {
     struct Pipes {
         int pipeTop;
@@ -31,17 +36,12 @@ namespace FlappyBird {
         private:
             WINDOW* window;
             Pipes pipes[100];
-            int pipeSize = 100;
-            int pipeOffset = 0;
-            int pipeXDelay = 20;
-            int pipeYDelay = 10;
             int PipesX;
             int BirdY;
-            int BirdX = 5;
-            int BirdVelocity = 1;
+            int BirdVelocity;
             int StartPipes;
-            void InitializeGame();
-            void GameTick();
+            void InitializeGame(int *birdY, int *birdVelocity, int *pipesX, int *startPipes);
+            void GameTick(int *birdY, int *birdVelocity, int *pipesX, int *collidePositions, int *score);
             void DrawMenu(MenuState *menuState, GameState *gameState);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);

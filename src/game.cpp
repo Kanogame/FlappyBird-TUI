@@ -11,8 +11,6 @@ namespace FlappyBird {
         refresh();
         noecho();
         window = newwin(LINES, COLS - 1, 0, 0);
-        PipesX = (int)(COLS / 2) / (pipeXDelay + 10) * (pipeXDelay + 10);
-        StartPipes = PipesX;
         cbreak();
         wrefresh(window);
         GameState gameState = GameState::Menu;
@@ -32,12 +30,16 @@ namespace FlappyBird {
             case GameState::Game:
                 nodelay(stdscr, TRUE);
                 SetPipes();
+                InitializeGame(&BirdY, &BirdVelocity, &PipesX, &StartPipes);
                 while (1) {
+                    int score;
+                    int collidePositions;
                     BirdJump();
-                    
+                    GameTick(&BirdY, &BirdVelocity, &PipesX, &collidePositions, &score);
                     RepaintReqaried(score + 1);
                     if (CollideCheck(collidePositions, score)) {
                         wclear(window);
+                        *GameState = GameState::Gameover;
                         return;
                     }
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -46,18 +48,19 @@ namespace FlappyBird {
         }
     }
 
-    void Game::InitializeGame(int *birdY, int *birdVelocity, int *pipesX) {
-        birdY = LINES / 2;
-        pipesX = 0;
-        birdVelocity = 1;
+    void Game::InitializeGame(int *birdY, int *birdVelocity, int *pipesX, int *startPipes) {
+        *birdY = LINES / 2;
+        *pipesX = (int)(COLS / 2) / (pipeXDelay + 10) * (pipeXDelay + 10);
+        *startPipes = *pipesX;
+        *birdVelocity = 1;
     }
 
-    void Game::GameTick(int *birdY, int *birdVelocity, int *PipesX, int *collidePositions, int *score) {
-        BirdY += BirdVelocity;
-        BirdVelocity += 1;
-        PipesX -= 1;
-        collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
-        score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
+    void Game::GameTick(int *birdY, int *birdVelocity, int *pipesX, int *collidePositions, int *score) {
+        *birdY += BirdVelocity;
+        *birdVelocity += 1;
+        *pipesX -= 1;
+        *collidePositions =  (*pipesX -StartPipes - 5) / (pipeXDelay + 10) - (*pipesX -StartPipes + 5) / (pipeXDelay + 10);
+        *score = (-(*pipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
     }
 
     void Game::DrawMenu(MenuState *menuState, GameState *gameState) {
