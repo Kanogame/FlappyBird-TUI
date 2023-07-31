@@ -35,11 +35,13 @@ namespace FlappyBird {
             int pipeOffset = 0;
             int pipeXDelay = 20;
             int pipeYDelay = 10;
-            int PipesX = 0;
-            int BirdY = 3;
+            int PipesX;
+            int BirdY;
             int BirdX = 5;
             int BirdVelocity = 1;
             int StartPipes;
+            void InitializeGame();
+            void GameTick();
             void DrawMenu(MenuState *menuState, GameState *gameState);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);

@@ -34,11 +34,7 @@ namespace FlappyBird {
                 SetPipes();
                 while (1) {
                     BirdJump();
-                    BirdY += BirdVelocity;
-                    BirdVelocity += 1;
-                    PipesX -= 1;
-                    int collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
-                    int score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
+                    
                     RepaintReqaried(score + 1);
                     if (CollideCheck(collidePositions, score)) {
                         wclear(window);
@@ -48,6 +44,20 @@ namespace FlappyBird {
                 }
                 break;
         }
+    }
+
+    void Game::InitializeGame(int *birdY, int *birdVelocity, int *pipesX) {
+        birdY = LINES / 2;
+        pipesX = 0;
+        birdVelocity = 1;
+    }
+
+    void Game::GameTick(int *birdY, int *birdVelocity, int *PipesX, int *collidePositions, int *score) {
+        BirdY += BirdVelocity;
+        BirdVelocity += 1;
+        PipesX -= 1;
+        collidePositions =  (PipesX -StartPipes - 5) / (pipeXDelay + 10) - (PipesX -StartPipes + 5) / (pipeXDelay + 10);
+        score = (-(PipesX -StartPipes - 5) / (pipeXDelay + 10)) - StartPipes / (pipeXDelay + 10);
     }
 
     void Game::DrawMenu(MenuState *menuState, GameState *gameState) {
