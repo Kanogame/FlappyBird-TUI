@@ -23,8 +23,9 @@ namespace FlappyBird {
     void Game::Gameloop(GameState *GameState) {
         switch (*GameState)
             {
-            case GameState::Menu:
-                DrawMenu(GameState);
+            case GameState::Menu:{
+                MenuState menuState;
+                DrawMenu(&menuState);}
                 break;
             case GameState::Game:
                 nodelay(stdscr, TRUE);
@@ -47,13 +48,48 @@ namespace FlappyBird {
         }
     }
 
-    void Game::DrawMenu(GameState *GameState) {
-        DrawGameWindow(window);
-        DrawButton(11, LINES / 2, COLS / 2, "start", ButtonState::Static);
+    void Game::DrawMenu(MenuState *menuState) {
+        int menuWidth = 40;
+        int menuHeight = 11;
+        int menuY = LINES / 4 * 3 - menuHeight / 2;
+        int menuX = AlignText(COLS, menuWidth);
+        while (true) {
+            wclear(window);
+            DrawGameWindow(window);
+            auto menuWindow = newwin(menuHeight, menuWidth, menuY, menuX);
+            box(menuWindow, 0, 0);
+            wrefresh(menuWindow);
+            DrawButton(menuWidth - 4, menuY + 2, menuX + 2, "start", menuState->Start);
+            DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "start1", menuState->Exit);
+            switch (getch())
+            {
+            case 'w': case 's':
+                SwapState(&menuState->Start, &menuState->Exit);
+                break;
+            
+            case KEY_ENTER:
+                if (menuState->Start == ButtonState::Active) {
+                    menuState->Start = ButtonState::Pressed;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                    //start game
+                } else {
+                    menuState->Exit = ButtonState::Pressed;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+                    return;
+                }
+                break;
+            };
+        }
     }
 
-    void Game::DrawButton(int width, int x, int y, char *text, ButtonState buttonState) {
-        auto buttonWindow = newwin(3, width, x, y); 
+    void Game::SwapState(ButtonState *state1, ButtonState *state2) {
+        auto state = *state1;
+        *state1 = *state2;
+        *state2 = state;
+    }
+
+    void Game::DrawButton(int width, int y, int x, char *text, ButtonState buttonState) {
+        auto buttonWindow = newwin(3, width, y, x); 
         switch (buttonState) {
         case ButtonState::Static:
             box(buttonWindow, 0, 0);
@@ -61,10 +97,12 @@ namespace FlappyBird {
             wrefresh(buttonWindow);
             break;
         
-        default:
+         case ButtonState::Active:
+            box(buttonWindow, 103, 104);
+            mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
+            wrefresh(buttonWindow);
             break;
         }
-        getch();
     }
 
     int Game::AlignText(int width, int textLen) {

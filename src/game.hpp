@@ -14,15 +14,15 @@ namespace FlappyBird {
         Gameover
     };
 
-    enum class MenuButton {
-        Start,
-        Exit
-    };
-
     enum class ButtonState {
         Static,
         Active,
         Pressed
+    };
+
+    struct MenuState {
+        ButtonState Start = ButtonState::Active;
+        ButtonState Exit = ButtonState::Static;
     };
 
     class Game {
@@ -40,11 +40,12 @@ namespace FlappyBird {
             int BirdX = 5;
             int BirdVelocity = 1;
             int StartPipes;
-            void DrawMenu(GameState *GameState);
+            void DrawMenu(MenuState *menuState);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);
-            void DrawButton(int width, int x, int y, char *text, ButtonState buttonState);
+            void SwapState(ButtonState *state1, ButtonState *state2);
+            void DrawButton(int width, int y, int x, char *text, ButtonState buttonState);
             int AlignText(int width, int textLen);
             void SetPipes();
             void ResetPipes(Pipes Oldpipes[]);
