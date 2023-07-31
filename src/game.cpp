@@ -16,7 +16,9 @@ namespace FlappyBird {
         cbreak();
         wrefresh(window);
         GameState gameState = GameState::Menu;
-        Gameloop(&gameState);
+        while (gameState != GameState::Exit) {
+            Gameloop(&gameState);
+        }
         endwin();
     }
 
@@ -60,7 +62,7 @@ namespace FlappyBird {
             box(menuWindow, 0, 0);
             wrefresh(menuWindow);
             DrawButton(menuWidth - 4, menuY + 2, menuX + 2, "start", menuState->Start);
-            DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "start1", menuState->Exit);
+            DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "exit", menuState->Exit);
             switch (getch())
             {
             case 'w': case 's':
@@ -69,10 +71,11 @@ namespace FlappyBird {
             
             case 'd':
                 if (menuState->Start == ButtonState::Active) {
-                    GameState
+                    *gameState = GameState::Game;
                 } else {
-                    return;
+                    *gameState = GameState::Exit;
                 }
+                return;
                 break;
             };
         }
@@ -92,7 +95,7 @@ namespace FlappyBird {
             break;
         
         case ButtonState::Active:
-            box(buttonWindow, 103, 104);
+            box(buttonWindow, 0, '=');
             break;
         }
         mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
