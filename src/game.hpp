@@ -40,7 +40,7 @@ namespace FlappyBird {
             int BirdX = 5;
             int BirdVelocity = 1;
             int StartPipes;
-            void DrawMenu(MenuState *menuState);
+            void DrawMenu(MenuState *menuState, GameState *gameState);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);

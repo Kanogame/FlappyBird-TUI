@@ -25,7 +25,7 @@ namespace FlappyBird {
             {
             case GameState::Menu:{
                 MenuState menuState;
-                DrawMenu(&menuState);}
+                DrawMenu(&menuState, GameState);}
                 break;
             case GameState::Game:
                 nodelay(stdscr, TRUE);
