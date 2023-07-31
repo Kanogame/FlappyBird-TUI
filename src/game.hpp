@@ -11,13 +11,13 @@ namespace FlappyBird {
     enum class GameState {
         Menu,
         Game,
-        Gameover
+        Gameover,
+        Exit,
     };
 
     enum class ButtonState {
         Static,
-        Active,
-        Pressed
+        Active
     };
 
     struct MenuState {

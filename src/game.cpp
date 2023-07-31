@@ -48,7 +48,7 @@ namespace FlappyBird {
         }
     }
 
-    void Game::DrawMenu(MenuState *menuState) {
+    void Game::DrawMenu(MenuState *menuState, GameState *gameState) {
         int menuWidth = 40;
         int menuHeight = 11;
         int menuY = LINES / 4 * 3 - menuHeight / 2;
@@ -67,14 +67,10 @@ namespace FlappyBird {
                 SwapState(&menuState->Start, &menuState->Exit);
                 break;
             
-            case KEY_ENTER:
+            case 'd':
                 if (menuState->Start == ButtonState::Active) {
-                    menuState->Start = ButtonState::Pressed;
-                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                    //start game
+                    GameState
                 } else {
-                    menuState->Exit = ButtonState::Pressed;
-                    std::this_thread::sleep_for(std::chrono::milliseconds(200));
                     return;
                 }
                 break;
@@ -93,16 +89,14 @@ namespace FlappyBird {
         switch (buttonState) {
         case ButtonState::Static:
             box(buttonWindow, 0, 0);
-            mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
-            wrefresh(buttonWindow);
             break;
         
-         case ButtonState::Active:
+        case ButtonState::Active:
             box(buttonWindow, 103, 104);
-            mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
-            wrefresh(buttonWindow);
             break;
         }
+        mvwprintw(buttonWindow, 1, AlignText(width, strlen(text)), text);
+        wrefresh(buttonWindow);
     }
 
     int Game::AlignText(int width, int textLen) {
