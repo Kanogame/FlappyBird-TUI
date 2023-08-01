@@ -4,6 +4,7 @@
 #define pipeXDelay 20
 #define pipeYDelay 10
 #define BirdX 5
+#define MenuTitle
 
 namespace FlappyBird {
     struct Pipes {
@@ -55,6 +56,17 @@ namespace FlappyBird {
             void DrawPipes(Pipes pipes[]);
             void DrawScore(int score);
             void BirdJump();
+            void DrawTitle(WINDOW *window, int x, int y, const char *title[]);
             bool CollideCheck(int collidePositions, int score);
+            const char *menuTitle[8] = {
+                " ______  _                               _      _           _ ",
+                "|  ____|| |                             | |    (_)         | |",
+                "| |__   | |  __ _  _ __   _ __   _   _  | |__   _  _ __  __| |",
+                "|  __|  | | / _` || '_ \\ | '_ \\ | | | | | '_ \\ | || '__|/ _` |",
+                "| |     | || (_| || |_) || |_) || |_| | | |_) || || |  | (_| |",
+                "|_|     |_| \\__,_|| .__/ | .__/  \\__, | |_.__/ |_||_|   \\__,_|",
+                "                  | |    | |      __/ |                       ",
+                "                  |_|    |_|     |___/                        ",
+            };
     };
 }

@@ -143,6 +143,7 @@ namespace FlappyBird {
             DrawGameWindow(window);
             auto menuWindow = newwin(menuHeight, menuWidth, menuY, menuX);
             box(menuWindow, 0, 0);
+            DrawTitle(window, 0, AlignText(COLS, strlen(menuTitle[0])), menuTitle);
             wrefresh(menuWindow);
             DrawButton(menuWidth - 4, menuY + 2, menuX + 2, "start", menuState->Start);
             DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "exit", menuState->Exit);
@@ -162,6 +163,13 @@ namespace FlappyBird {
                 break;
             };
         }
+    }
+
+    void Game::DrawTitle(WINDOW *window, int x, int y, const char *title[]) {
+        for (int i = 0; i < sizeof(*title) / sizeof(*title[0]); i++) {
+            mvwprintw(window, x + i, y, title[i]);
+        }
+        wrefresh(window);
     }
 
     void Game::SwapState(ButtonState *state1, ButtonState *state2) {
