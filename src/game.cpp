@@ -143,7 +143,7 @@ namespace FlappyBird {
             DrawGameWindow(window);
             auto menuWindow = newwin(menuHeight, menuWidth, menuY, menuX);
             box(menuWindow, 0, 0);
-            DrawTitle(window, 0, AlignText(COLS, strlen(menuTitle[0])), menuTitle);
+            DrawTitle(window, 3, AlignText(COLS, strlen(menuTitle[0])), menuTitle);
             wrefresh(menuWindow);
             DrawButton(menuWidth - 4, menuY + 2, menuX + 2, "start", menuState->Start);
             DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "exit", menuState->Exit);
