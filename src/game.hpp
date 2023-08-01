@@ -4,7 +4,6 @@
 #define pipeXDelay 20
 #define pipeYDelay 10
 #define BirdX 5
-#define MenuTitle
 
 namespace FlappyBird {
     struct Pipes {
@@ -43,7 +42,7 @@ namespace FlappyBird {
             int StartPipes;
             void InitializeGame(int *birdY, int *birdVelocity, int *pipesX, int *startPipes);
             void GameTick(int *birdY, int *birdVelocity, int *pipesX, int *collidePositions, int *score);
-            void DrawMenu(MenuState *menuState, GameState *gameState);
+            void DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);
@@ -56,8 +55,9 @@ namespace FlappyBird {
             void DrawPipes(Pipes pipes[]);
             void DrawScore(int score);
             void BirdJump();
-            void DrawTitle(WINDOW *window, int x, int y, const char *title[]);
+            void DrawTitle(WINDOW *window, int x, int y, const char *title[], int titleLen);
             bool CollideCheck(int collidePositions, int score);
+            int menuLen = 8;
             const char *menuTitle[8] = {
                 " ______  _                               _      _           _ ",
                 "|  ____|| |                             | |    (_)         | |",
@@ -67,6 +67,16 @@ namespace FlappyBird {
                 "|_|     |_| \\__,_|| .__/ | .__/  \\__, | |_.__/ |_||_|   \\__,_|",
                 "                  | |    | |      __/ |                       ",
                 "                  |_|    |_|     |___/                        ",
+            };
+
+            int gameOverLen = 6;
+            const char *gameOverTitle[6] = {
+                " _____                                                   ",
+                "/ ____|                                                  ",
+                "| |  __   __ _  _ __ ___    ___    ___ __   __ ___  _ __ ",
+                "| | |_ | / _` || '_ ` _ \\  / _ \\  / _ \\\\ \\ / // _ \\| '__|",
+                "| |__| || (_| || | | | | ||  __/ | (_) |\\ V /|  __/| |   ",
+                " \\_____| \\__,_||_| |_| |_| \\___|  \\___/  \\_/  \\___||_|   ",
             };
     };
 }

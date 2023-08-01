@@ -30,7 +30,7 @@ namespace FlappyBird {
             {
             case GameState::Menu:{
                 MenuState menuState;
-                DrawMenu(&menuState, GameState);}
+                DrawMenu(&menuState, GameState, "start", "exit", menuTitle, menuLen);}
                 break;
             case GameState::Game:
                 nodelay(stdscr, TRUE);
@@ -49,6 +49,11 @@ namespace FlappyBird {
                     }
                     std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 }
+                break;
+            case GameState::Gameover:{
+                nodelay(stdscr, FALSE);
+                MenuState menuState;
+                DrawMenu(&menuState, GameState, "try again", "exit", gameOverTitle, gameOverLen);}
                 break;
         }
     }
@@ -133,7 +138,7 @@ namespace FlappyBird {
         wrefresh(ScoreWindow);
     }
     
-    void Game::DrawMenu(MenuState *menuState, GameState *gameState) {
+    void Game::DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen) {
         int menuWidth = 40;
         int menuHeight = 11;
         int menuY = LINES / 4 * 3 - menuHeight / 2;
@@ -143,10 +148,10 @@ namespace FlappyBird {
             DrawGameWindow(window);
             auto menuWindow = newwin(menuHeight, menuWidth, menuY, menuX);
             box(menuWindow, 0, 0);
-            DrawTitle(window, 3, AlignText(COLS, strlen(menuTitle[0])), menuTitle);
+            DrawTitle(window, 3, AlignText(COLS, strlen(Title[0])), Title, titleLen);
             wrefresh(menuWindow);
-            DrawButton(menuWidth - 4, menuY + 2, menuX + 2, "start", menuState->Start);
-            DrawButton(menuWidth - 4, menuY + 6, menuX + 2, "exit", menuState->Exit);
+            DrawButton(menuWidth - 4, menuY + 2, menuX + 2, TopButton, menuState->Start);
+            DrawButton(menuWidth - 4, menuY + 6, menuX + 2, BottomButton, menuState->Exit);
             switch (getch())
             {
             case 'w': case 's':
@@ -165,8 +170,8 @@ namespace FlappyBird {
         }
     }
 
-    void Game::DrawTitle(WINDOW *window, int x, int y, const char *title[]) {
-        for (int i = 0; i < sizeof(*title) / sizeof(*title[0]); i++) {
+    void Game::DrawTitle(WINDOW *window, int x, int y, const char *title[], int titleLen) {
+        for (int i = 0; i < titleLen; i++) {
             mvwprintw(window, x + i, y, title[i]);
         }
         wrefresh(window);
