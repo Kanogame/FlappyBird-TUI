@@ -30,7 +30,7 @@ namespace FlappyBird {
             {
             case GameState::Menu:{
                 MenuState menuState;
-                DrawMenu(&menuState, GameState, "start", "exit", menuTitle, menuLen);}
+                DrawMenu(&menuState, GameState, "start", "exit", menuTitle, menuLen, true);}
                 break;
             case GameState::Game:
                 nodelay(stdscr, TRUE);
@@ -53,7 +53,7 @@ namespace FlappyBird {
             case GameState::Gameover:{
                 nodelay(stdscr, FALSE);
                 MenuState menuState;
-                DrawMenu(&menuState, GameState, "try again", "exit", gameOverTitle, gameOverLen);}
+                DrawMenu(&menuState, GameState, "try again", "exit", gameOverTitle, gameOverLen, false);}
                 break;
         }
     }
@@ -131,14 +131,14 @@ namespace FlappyBird {
     void Game::DrawScore(int score) {
         int scoreWidth = 11;
         int scoreHeight = 3;
-        int Gamescore = score < 0 ? 0 : score;
+        Gamescore = score < 0 ? 0 : score;
         auto ScoreWindow = newwin(scoreHeight, scoreWidth, 0, COLS / 2 - 5);
         box(ScoreWindow, 0, 0);
-        mvwprintw(ScoreWindow, 1, AlignText(scoreWidth, sizeof(score) / sizeof(int)), "%d", Gamescore);
+        mvwprintw(ScoreWindow, 1, AlignText(scoreWidth, sizeof(Gamescore) / sizeof(int)), "%d", Gamescore);
         wrefresh(ScoreWindow);
     }
     
-    void Game::DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen) {
+    void Game::DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen, bool isMenu) {
         int menuWidth = 40;
         int menuHeight = 11;
         int menuY = LINES / 4 * 3 - menuHeight / 2;
@@ -148,6 +148,9 @@ namespace FlappyBird {
             DrawGameWindow(window);
             auto menuWindow = newwin(menuHeight, menuWidth, menuY, menuX);
             box(menuWindow, 0, 0);
+            if (!isMenu) {
+                mvwprintw(window, LINES / 2, AlignText(COLS, sizeof(Gamescore) / sizeof(int) + 12), "Your score: %d", Gamescore);
+            }
             DrawTitle(window, 3, AlignText(COLS, strlen(Title[0])), Title, titleLen);
             wrefresh(menuWindow);
             DrawButton(menuWidth - 4, menuY + 2, menuX + 2, TopButton, menuState->Start);
@@ -201,5 +204,4 @@ namespace FlappyBird {
     int Game::AlignText(int width, int textLen) {
         return width / 2 - textLen / 2;
     }
-
 }

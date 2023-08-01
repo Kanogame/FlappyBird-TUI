@@ -40,9 +40,10 @@ namespace FlappyBird {
             int BirdY;
             int BirdVelocity;
             int StartPipes;
+            int Gamescore;
             void InitializeGame(int *birdY, int *birdVelocity, int *pipesX, int *startPipes);
             void GameTick(int *birdY, int *birdVelocity, int *pipesX, int *collidePositions, int *score);
-            void DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen);
+            void DrawMenu(MenuState *menuState, GameState *gameState, char *TopButton, char *BottomButton, const char *Title[], int titleLen, bool isMenu);
             void Gameloop(GameState *GameState);
             void RepaintReqaried(int score);
             void DrawGameWindow(WINDOW *window);
